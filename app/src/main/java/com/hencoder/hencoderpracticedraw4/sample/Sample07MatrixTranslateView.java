@@ -43,6 +43,7 @@ public class Sample07MatrixTranslateView extends View {
         canvas.save();
         matrix.reset();
         matrix.postTranslate(-100, -100);
+
         canvas.concat(matrix);
         canvas.drawBitmap(bitmap, point1.x, point1.y, paint);
         canvas.restore();

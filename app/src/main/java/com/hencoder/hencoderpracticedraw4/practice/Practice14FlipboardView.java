@@ -19,7 +19,7 @@ public class Practice14FlipboardView extends View {
   Bitmap bitmap;
   Camera camera = new Camera();
   int degree;
-  ObjectAnimator animator = ObjectAnimator.ofInt(this, "degree", 0, 180);
+  ObjectAnimator animator = ObjectAnimator.ofInt(this, "degree", 0, 360);
 
   public Practice14FlipboardView(Context context) {
     super(context);
@@ -35,11 +35,12 @@ public class Practice14FlipboardView extends View {
 
   {
     bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.maps);
-
     animator.setDuration(2500);
     animator.setInterpolator(new LinearInterpolator());
     animator.setRepeatCount(ValueAnimator.INFINITE);
     animator.setRepeatMode(ValueAnimator.REVERSE);
+    camera.rotateX(45);
+    camera.setLocation(0, 0, getResources().getDisplayMetrics().density * -6);
   }
 
   @Override
@@ -71,46 +72,24 @@ public class Practice14FlipboardView extends View {
     int x = centerX - bitmapWidth / 2;
     int y = centerY - bitmapHeight / 2;
 
-    //// 第一遍绘制：上半部分
-    //canvas.save();
-    //canvas.clipRect(0, 0, getWidth(), centerY);
-    //canvas.drawBitmap(bitmap, x, y, paint);
-    //canvas.restore();
-    //
-    //// 第二遍绘制：下半部分
-    //canvas.save();
-    //if (degree > 90) {
-    //  canvas.clipRect(0, 0, getWidth(), centerY);
-    //} else {
-    //  canvas.clipRect(0, centerY, getWidth(), getHeight());
-    //}
-    //camera.save();
-    //camera.rotateX(degree);
-    //canvas.translate(centerX, centerY);
-    //camera.applyToCanvas(canvas);
-    //canvas.translate(-centerX, -centerY);
-    //camera.restore();
-    //canvas.drawBitmap(bitmap, x, y, paint);
-    //canvas.restore();
-
-    //更加简便的写法
-    //绘制上半部分
+    //绘制上部分
     canvas.save();
     canvas.translate(centerX, centerY);
-    canvas.clipRect(-centerX, -centerY, centerX,0);
+    canvas.rotate(-degree);
+    canvas.clipRect(-centerX, -centerY, centerX, 0);
+    canvas.rotate(degree);
     canvas.translate(-centerX, -centerY);
     canvas.drawBitmap(bitmap, x, y, paint);
     canvas.restore();
 
     //绘制下半部分
     canvas.save();
-    camera.save();
     canvas.translate(centerX, centerY);
-    camera.rotateX(degree);
+    canvas.rotate(-degree);
     camera.applyToCanvas(canvas);
     canvas.clipRect(-centerX, 0, centerX, centerY);
+    canvas.rotate(degree);
     canvas.translate(-centerX, -centerY);
-    camera.restore();
     canvas.drawBitmap(bitmap, x, y, paint);
     canvas.restore();
   }

@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             R.layout.practice_measure_text));
     pageModels.add(new PageModel(R.layout.sample_camera_rotate_hitting_face,
         R.string.title_camera_rotate_hitting_face, R.layout.practice_camera_rotate_hitting_face));
-    pageModels.add(new PageModel(R.layout.sample_flipboard, R.string.title_flipboard,
+    pageModels.add(new PageModel(R.layout.sample_flipboard, R.string.title_flip_board,
         R.layout.practice_flipboard));
   }
 

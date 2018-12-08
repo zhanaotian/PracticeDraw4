@@ -72,28 +72,50 @@ public class Sample14FlipboardView extends View {
         int x = centerX - bitmapWidth / 2;
         int y = centerY - bitmapHeight / 2;
 
-        // 第一遍绘制：上半部分
+        //// 第一遍绘制：上半部分
+        //canvas.save();
+        //canvas.clipRect(0, 0, getWidth(), centerY);
+        //canvas.drawBitmap(bitmap, x, y, paint);
+        //canvas.restore();
+        //
+        //// 第二遍绘制：下半部分
+        //canvas.save();
+        //
+        //if (degree < 90) {
+        //    canvas.clipRect(0, centerY, getWidth(), getHeight());
+        //} else {
+        //    canvas.clipRect(0, 0, getWidth(), centerY);
+        //}
+        //camera.save();
+        //camera.rotateX(degree);
+        //canvas.translate(centerX, centerY);
+        //camera.applyToCanvas(canvas);
+        //canvas.translate(-centerX, -centerY);
+        //camera.restore();
+        //
+        //canvas.drawBitmap(bitmap, x, y, paint);
+        //canvas.restore();
+
+        //更加简便的写法
+        //绘制上半部分
         canvas.save();
-        canvas.clipRect(0, 0, getWidth(), centerY);
+        canvas.translate(centerX, centerY);
+        canvas.clipRect(-centerX, -centerY, centerX, 0);
+        canvas.translate(-centerX, -centerY);
         canvas.drawBitmap(bitmap, x, y, paint);
         canvas.restore();
 
-        // 第二遍绘制：下半部分
+        //绘制下半部分
         canvas.save();
-
-        if (degree < 90) {
-            canvas.clipRect(0, centerY, getWidth(), getHeight());
-        } else {
-            canvas.clipRect(0, 0, getWidth(), centerY);
-        }
         camera.save();
-        camera.rotateX(degree);
         canvas.translate(centerX, centerY);
+        camera.rotateX(degree);
         camera.applyToCanvas(canvas);
+        canvas.clipRect(-centerX, 0, centerX, centerY);
         canvas.translate(-centerX, -centerY);
         camera.restore();
-
         canvas.drawBitmap(bitmap, x, y, paint);
         canvas.restore();
+
     }
 }
