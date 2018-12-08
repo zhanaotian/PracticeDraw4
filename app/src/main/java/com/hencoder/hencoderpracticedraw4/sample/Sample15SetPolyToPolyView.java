@@ -1,4 +1,4 @@
-package com.hencoder.hencoderpracticedraw4.practice;
+package com.hencoder.hencoderpracticedraw4.sample;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,22 +12,29 @@ import android.util.AttributeSet;
 import android.view.View;
 import com.hencoder.hencoderpracticedraw4.R;
 
-public class Practice07MatrixTranslateView extends View {
+public class Sample15SetPolyToPolyView extends View {
   Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
   Bitmap bitmap;
   Point point1 = new Point(200, 200);
-  Point point2 = new Point(600, 200);
   Matrix matrix = new Matrix();
+  private float left = 0;
+  private float top = 0;
+  private float right = point1.x;
+  private float bottom = point1.y;
+  float[] pointsSrc = { left, top, right, top, left, bottom, right, bottom };
+  float[] pointsDst = {
+      left - 10, top + 30, right + 120, top - 90, left + 20, bottom + 30, right + 20, bottom + 60
+  };
 
-  public Practice07MatrixTranslateView(Context context) {
+  public Sample15SetPolyToPolyView(Context context) {
     super(context);
   }
 
-  public Practice07MatrixTranslateView(Context context, @Nullable AttributeSet attrs) {
+  public Sample15SetPolyToPolyView(Context context, @Nullable AttributeSet attrs) {
     super(context, attrs);
   }
 
-  public Practice07MatrixTranslateView(Context context, @Nullable AttributeSet attrs,
+  public Sample15SetPolyToPolyView(Context context, @Nullable AttributeSet attrs,
       int defStyleAttr) {
     super(context, attrs, defStyleAttr);
   }
@@ -41,18 +48,9 @@ public class Practice07MatrixTranslateView extends View {
     super.onDraw(canvas);
     canvas.save();
     matrix.reset();
-    matrix.preTranslate(-100,-100);
-    //matrix.postTranslate(-100,-100);
+    matrix.setPolyToPoly(pointsSrc, 0, pointsDst, 0, 4);
     canvas.concat(matrix);
     canvas.drawBitmap(bitmap, point1.x, point1.y, paint);
-    canvas.restore();
-
-    canvas.save();
-    matrix.reset();
-    //matrix.preTranslate(200,0);
-    matrix.postTranslate(200,0);
-    canvas.concat(matrix);
-    canvas.drawBitmap(bitmap, point2.x, point2.y, paint);
     canvas.restore();
   }
 }

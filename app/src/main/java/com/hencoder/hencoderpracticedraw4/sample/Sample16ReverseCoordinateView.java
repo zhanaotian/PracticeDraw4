@@ -1,34 +1,31 @@
-package com.hencoder.hencoderpracticedraw4.practice;
+package com.hencoder.hencoderpracticedraw4.sample;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Camera;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
-
 import com.hencoder.hencoderpracticedraw4.R;
 
-public class Practice11CameraRotateView extends View {
+public class Sample16ReverseCoordinateView extends View {
   Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
   Bitmap bitmap;
-  Point point1 = new Point(200, 200);
-  Point point2 = new Point(600, 200);
-  Camera mCamera = new Camera();
+  Point point1 = new Point(200, 0);
+  Point point2 = new Point(600, 0);
 
-  public Practice11CameraRotateView(Context context) {
+  public Sample16ReverseCoordinateView(Context context) {
     super(context);
   }
 
-  public Practice11CameraRotateView(Context context, @Nullable AttributeSet attrs) {
+  public Sample16ReverseCoordinateView(Context context, @Nullable AttributeSet attrs) {
     super(context, attrs);
   }
 
-  public Practice11CameraRotateView(Context context, @Nullable AttributeSet attrs,
+  public Sample16ReverseCoordinateView(Context context, @Nullable AttributeSet attrs,
       int defStyleAttr) {
     super(context, attrs, defStyleAttr);
   }
@@ -40,20 +37,18 @@ public class Practice11CameraRotateView extends View {
   @Override
   protected void onDraw(Canvas canvas) {
     super.onDraw(canvas);
+    int bitmapWidth = bitmap.getWidth();
+    int bitmapHeight = bitmap.getHeight();
     canvas.save();
-    mCamera.save();
-    mCamera.rotateX(30);
-    mCamera.applyToCanvas(canvas);
-    mCamera.restore();
-    canvas.drawBitmap(bitmap, point1.x, point1.y, paint);
+    canvas.translate(point1.x, point1.y);
+    canvas.rotate(45, bitmapWidth / 2, bitmapHeight / 2);
+    canvas.drawBitmap(bitmap, 0, 0, paint);
     canvas.restore();
 
     canvas.save();
-    mCamera.save();
-    mCamera.rotateY(30);
-    mCamera.applyToCanvas(canvas);
-    mCamera.restore();
-    canvas.drawBitmap(bitmap, point2.x, point2.y, paint);
+    canvas.translate(point2.x, point2.y);
+    canvas.rotate(45, bitmapWidth / 2, bitmapHeight / 2);
+    canvas.drawBitmap(bitmap, 0, 0, paint);
     canvas.restore();
   }
 }
